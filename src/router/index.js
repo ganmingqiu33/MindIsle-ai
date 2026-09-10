@@ -1,0 +1,68 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import BackendLayout from '@/components/BackendLayout.vue'
+import AuthorLayout from '@/components/AuthorLayout.vue'
+const backendRoutes=[
+    {
+        path: '/author',
+       component: AuthorLayout,
+       children: [
+        {
+            path: 'login',
+            component: () => import('@/views/login.vue'),
+            meta: {
+                title: '登录'
+            }
+        },
+        {
+            path: 'register',
+            component: () => import('@/views/register.vue'),
+            meta: {
+                title: '注册'
+            }
+        }
+       ]
+    },
+    {
+    path: '/back',
+    component: BackendLayout,
+    children: [
+        {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard.vue'),
+        meta: {
+            title: '数据分析',
+            icon: 'DataLine',
+        }
+        },
+        {
+            path: 'knowledge',
+            component: () => import('@/views/knowledge.vue'),
+            meta: {
+                title: '知识文章',
+                icon: 'Reading',
+            }
+        },
+         {
+            path: 'consultations',
+            component: () => import('@/views/consultations.vue'),
+            meta: {
+                title: '咨询记录',
+                icon: 'Message',
+            }
+        },
+        {
+            path: 'emotional',
+            component: () => import('@/views/emotional.vue'),
+            meta: {
+                title: '情绪日志',
+                icon: 'User',
+            }
+        },
+    ]
+    }
+]
+const router=createRouter({
+    history: createWebHistory(),
+    routes: backendRoutes,
+    })
+export default router
