@@ -1,0 +1,70 @@
+# ============================================================
+# 心屿生产 Nginx 配置示例
+# 放置：/etc/nginx/conf.d/xinyu.conf   然后 nginx -t && systemctl reload nginx
+# 前端 dist 上传到 /var/www/xinyu/dist
+# ============================================================
+server {
+    listen 80;
+    server_name 你的域名或公网IP;
+
+    # 备案完成、证书签发后改为 443 ssl（80 做 301 跳转），试用阶段直接用 80 + IP
+    # listen 443 ssl;
+    # ssl_certificate     /etc/nginx/ssl/fullchain.pem;
+    # ssl_certificate_key /etc/nginx/ssl/privkey.pem;
+
+    root /var/www/xinyu/dist;
+    index index.html;
+    client_max_body_size 20m;   # 知识库文件 15MB 上限
+
+    # SPA 路由回退（/front/ai 刷新不 404）
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 前端静态资源长缓存
+    location /assets/ {
+        expires 7d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # ------------------------------------------------------------
+    # Dify：先过配额网关（127.0.0.1:3001），由网关注入 Bearer Key
+    # 网关只监听本机，公网无法直接访问；密钥不出现在浏览器
+    # ------------------------------------------------------------
+    location /dify/ {
+        proxy_pass http://127.0.0.1:3001/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # SSE 流式对话必须
+        proxy_set_header Connection '';
+        proxy_buffering off;
+        proxy_cache off;
+        proxy_read_timeout 300s;
+        chunked_transfer_encoding on;
+    }
+
+    # ------------------------------------------------------------
+    # 认证服务：浏览器请求 /auth-svc/xxx → auth-service:3002/xxx
+    # （注册 / 登录 / 改密 / 用户资料 / 站内信 / 用户数据同步）
+    # ------------------------------------------------------------
+    location /auth-svc/ {
+        proxy_pass http://127.0.0.1:3002/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # ------------------------------------------------------------
+    # 真实后端（部署后取消注释；注意尾斜杠剥掉 /api 前缀，与本地 rewrite 一致）
+    # ------------------------------------------------------------
+    # location /api/ {
+    #     proxy_pass http://127.0.0.1:8081/;
+    #     proxy_set_header Host $host;
+    #     proxy_set_header X-Real-IP $remote_addr;
+    #     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    # }
+}

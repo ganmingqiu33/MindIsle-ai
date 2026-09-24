@@ -1,0 +1,17 @@
+{
+  "name": "xinyu-quota-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "心屿 AI 每日对话配额网关（Nginx 与 Dify 之间）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

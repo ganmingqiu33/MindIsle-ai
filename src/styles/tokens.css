@@ -1,0 +1,136 @@
+/* ============================================================
+   心屿设计令牌（Google 卡通线条风）
+   用户端页面（工作台、落地页等）共用；AI 聊天页不引用这些皮肤变量
+   ============================================================ */
+:root {
+  /* 色板 */
+  --ink: #1f1f1f;
+  --paper: #f6f5f0;
+  --card: #ffffff;
+  --c-blue: #1a73e8;
+  --c-yellow: #fbbc04;
+  --c-red: #ea4335;
+  --c-green: #34a853;
+  --c-blue-soft: #e8f0fe;
+  --c-yellow-soft: #fef7e0;
+  --c-red-soft: #fce8e6;
+  --c-green-soft: #e6f4ea;
+  --c-purple: #a142f4;
+  --c-purple-soft: #f3e8fd;
+
+  /* 墨色透明层级（次要文字/虚线/占位） */
+  --ink-70: rgba(31, 31, 31, 0.72);
+  --ink-55: rgba(31, 31, 31, 0.55);
+  --ink-40: rgba(31, 31, 31, 0.4);
+  --ink-35: rgba(31, 31, 31, 0.35);
+  --ink-25: rgba(31, 31, 31, 0.25);
+
+  /* 悬停表面 */
+  --hover-bg: #f2f2ef;
+  --hover-strong: #e4e4e0;
+
+  /* 形状 */
+  --line: 2px solid var(--ink);
+  --radius-card: 24px;
+  --radius-pill: 999px;
+  --shadow-1: 4px 4px 0 var(--ink);
+  --shadow-2: 6px 6px 0 var(--ink);
+
+  /* 动效 */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   夜间模式（<html class="dark">，由 utils/theme.js 控制）
+   只切换令牌，不改各组件原有规则
+   ============================================================ */
+html.dark {
+  --ink: #e9e9ee;
+  --paper: #16161c;
+  --card: #22222b;
+  --c-blue-soft: #1b2a47;
+  --c-yellow-soft: #3d3210;
+  --c-red-soft: #3d201d;
+  --c-green-soft: #1c3324;
+  --c-purple-soft: #2e1f45;
+
+  --ink-70: rgba(233, 233, 238, 0.75);
+  --ink-55: rgba(233, 233, 238, 0.58);
+  --ink-40: rgba(233, 233, 238, 0.42);
+  --ink-35: rgba(233, 233, 238, 0.36);
+  --ink-25: rgba(233, 233, 238, 0.26);
+
+  --hover-bg: #2d2d37;
+  --hover-strong: #3b3b47;
+
+  --shadow-1: 4px 4px 0 #000;
+  --shadow-2: 6px 6px 0 #000;
+
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: var(--paper);
+}
+/* 工作台根容器：未显式设色的继承文字统一翻转为浅墨色 */
+html.dark .app {
+  color: var(--ink);
+}
+
+/* 深色滚动条 */
+html.dark *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html.dark *::-webkit-scrollbar-thumb {
+  background: #3b3b47;
+  border-radius: 8px;
+}
+html.dark *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- 入场动效工具类（配合 useReveal） ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px) rotate(-1deg);
+  transition:
+    opacity 0.5s var(--ease-smooth),
+    transform 0.5s var(--ease-spring);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0);
+}
+
+/* ---------- 路由切换过渡 ---------- */
+.slide-fade-enter-active {
+  transition:
+    opacity 0.3s var(--ease-smooth),
+    transform 0.3s var(--ease-smooth);
+}
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.slide-fade-leave-active {
+  transition: opacity 0.18s ease;
+}
+.slide-fade-leave-to {
+  opacity: 0;
+}
+
+/* 尊重系统「减少动态效果」设置 */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .slide-fade-enter-active,
+  .slide-fade-leave-active {
+    transition: none;
+  }
+}

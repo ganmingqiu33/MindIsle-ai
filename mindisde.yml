@@ -1,0 +1,272 @@
+agent:
+  package_ref: agent_1
+agent_packages:
+  agent_1:
+    metadata:
+      description: ''
+      icon: 🧸
+      icon_background: '#F5F3FF'
+      icon_type: emoji
+      name: mindisde
+      role: 工作助手
+    omitted_assets: []
+    schema_version: 1
+    soul:
+      app_features:
+        annotation_reply:
+          enabled: false
+        file_upload:
+          allowed_file_extensions:
+          - JPG
+          - JPEG
+          - PNG
+          - GIF
+          - WEBP
+          - SVG
+          allowed_file_types:
+          - document
+          - image
+          - audio
+          - video
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          enabled: true
+          image:
+            enabled: true
+          number_limits: 3
+        opening_statement: ''
+        retriever_resource:
+          enabled: false
+        sensitive_word_avoidance:
+          config: null
+          enabled: false
+          type: null
+        speech_to_text:
+          enabled: false
+        suggested_questions: []
+        suggested_questions_after_answer:
+          enabled: true
+          model: null
+          prompt: null
+        text_to_speech:
+          autoPlay: null
+          enabled: false
+          language: null
+          voice: null
+      app_variables: []
+      config_files: []
+      config_note: ''
+      config_skills: []
+      env:
+        secret_refs: []
+        variables: []
+      human:
+        contacts: []
+        tools: []
+      knowledge:
+        sets: []
+      memory:
+        artifacts: []
+        budget: null
+        scope: null
+      misc_legacy:
+        file_upload:
+          allowed_file_extensions:
+          - JPG
+          - JPEG
+          - PNG
+          - GIF
+          - WEBP
+          - SVG
+          allowed_file_types:
+          - document
+          - image
+          - audio
+          - video
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          enabled: true
+          image:
+            enabled: true
+          number_limits: 3
+        opening_statement: null
+        retriever_resource: null
+        sensitive_word_avoidance: null
+        speech_to_text: null
+        suggested_questions: null
+        suggested_questions_after_answer: null
+        text_to_speech: null
+      model:
+        credential_ref: null
+        model: deepseek-v4-flash
+        model_provider: langgenius/deepseek/deepseek
+        model_settings:
+          frequency_penalty: null
+          max_tokens: 800
+          presence_penalty: null
+          reasoning_effort: low
+          response_format: null
+          stop: null
+          temperature: null
+          thinking: false
+          top_p: null
+        plugin_id: langgenius/deepseek
+      prompt:
+        system_prompt: '你是心屿，用户的长期心理陪伴者。
+
+
+          【说话风格】
+
+          - 只针对用户这次说的内容回应，不复述、不套模板，不主动播报时间和日期
+
+          - 像冷静、靠谱、温和的朋友：直接给看法，不说"我完全理解你的感受"这类空话
+
+          - 一般 2-4 句；给建议时最多 3 条，每条一句话、可执行，不说"保持积极""加油"这类正确的废话
+
+          - 不罗列表情，整条回复最多一个 emoji，且只在情绪确实需要时用
+
+          - 回答心理问题前必须先检索知识库，基于检索内容回答；知识库没有依据时直接说明，不编造
+
+          - 不做医学诊断；遇到自伤/自杀内容，不评判，明确建议拨打心理援助热线 400-161-9995，并联系身边信任的人
+
+          【制定计划】
+
+          当用户明确要求制定一周、30 天或其他多天计划时：
+
+          1. 先用一两句简短的话说明安排思路
+
+          2. 然后另起一行，原样输出一个动作块（不要加解释，不要用别的代码语言名）：
+
+          ```xinyu-action{"plans":[{"title":"计划名","quadrant":"象限key","date":"YYYY-MM-DD","repeat":"重复类型"}]}
+
+          3. 规则：
+
+          - title：具体的动作名，10-20 字，不要在标题里写时间（时间放 time 字段），例如"起床喝一杯温水"
+
+          - quadrant 只能是这四个值之一：important-urgent（重要且紧急）、important-not-urgent（重要不紧急）、urgent-not-important（紧急不重要）、not-important-not-urgent（不重要不紧急）
+
+          - date：以系统备注里的北京时间为今天推算，格式 YYYY-MM-DD；习惯养成类从明天开始
+
+          - startTime：可选，开始时刻，24 小时制 HH:MM，例如 "07:00"；没有明确时间点就留空字符串
+
+          - endTime：可选，结束时刻 HH:MM；没有特殊说明只给 startTime，endTime 留空字符串，不要自己估算结束时间
+
+          - desc：可选，给这条计划的一句针对性建议或执行要点，30 字以内，说具体怎么做，不写加油类空话，例如"起床后先喝 200ml 温水，别急着看手机"
+
+          - repeat：none（单次）、daily（每天）、workday（工作日）、weekly（每周一/三/五这类用 {"type":"weekly","weekdays":[1,3,5]}，1=周一）、monthly
+
+          - 一周计划给 5-10 条，30 天计划给 12-20 条（重复习惯用一条 workday/daily，不要每天复制），总数不超过 30
+
+          - 用户没要求计划时，绝不输出动作块'
+      sandbox:
+        config:
+          cpu: null
+          env: []
+          image: null
+          working_dir: null
+        provider: null
+      schema_version: 1
+      tools:
+        cli_tools: []
+        dify_tools:
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: null
+          provider: time
+          provider_id: time
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: timestamp_to_localtime
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: null
+          provider: time
+          provider_id: time
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: timezone_conversion
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: null
+          provider: time
+          provider_id: time
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: current_time
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: null
+          provider: time
+          provider_id: time
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: localtime_to_timestamp
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: null
+          provider: time
+          provider_id: time
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: weekday
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: seekerliu/bocha
+          provider: seekerliu/bocha/bocha
+          provider_id: seekerliu/bocha/bocha
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: BochaWebSearch
+        - credential_ref: null
+          credential_type: unauthorized
+          description: null
+          enabled: true
+          name: null
+          plugin_id: seekerliu/bocha
+          provider: seekerliu/bocha/bocha
+          provider_id: seekerliu/bocha/bocha
+          provider_type: builtin
+          runtime_parameters: {}
+          tool_name: BochaAISearch
+    workspace_skills: []
+app:
+  description: ''
+  icon: 🧸
+  icon_background: '#F5F3FF'
+  icon_type: emoji
+  mode: agent
+  name: mindisde
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.24@9e12eef09973667f0eaf4f082af883167e1de88740b22e71e71488d020c3778a
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: seekerliu/bocha:0.0.1@7d2dbad3f9d2652300d73bb8d91337e925f3c0daf9e0a9e285e060fb9dd7aadb
+    version: null
+kind: app
+version: 0.7.0

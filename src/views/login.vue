@@ -91,7 +91,7 @@ const handleSubmit = async () => {
   if (!valid) return
   loading.value = true
   try {
-    const res = await login({ ...form })
+    const res = await login({ account: form.account, password: form.password })
     // 登录成功，保存 token 和用户信息
     localStorage.setItem('token', res.token)
     localStorage.setItem('userInfo', JSON.stringify(res.userInfo || {}))

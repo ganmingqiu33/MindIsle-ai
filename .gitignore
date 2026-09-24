@@ -13,6 +13,20 @@ dist-ssr
 *.local
 .npm-cache
 
+# 环境变量与密钥（含 server 子服务）
+.env
+.env.*
+!.env.example
+!.env.development
+
+# 本地数据库
+*.db
+*.db-wal
+*.db-shm
+
+# 部署/构建压缩包
+*.zip
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

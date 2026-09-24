@@ -6,8 +6,20 @@
     <el-form :model="formData" inline @submit.prevent>
       <template v-for="item in formItem" :key="item.prop">
         <el-form-item :label="item.label" :prop="item.prop">
+          <!-- 树形分类下拉：options 是带 children 的树结构 -->
+          <el-tree-select
+            v-if="item.component === 'el-tree-select'"
+            v-model="formData[item.prop]"
+            :data="item.options"
+            :props="treeProps"
+            :placeholder="item.placeholder"
+            clearable
+            check-strictly
+            :render-after-expand="false"
+            class="search-control"
+          />
           <el-select
-            v-if="item.component === 'el-select'"
+            v-else-if="item.component === 'el-select'"
             v-model="formData[item.prop]"
             :placeholder="item.placeholder"
             clearable
@@ -48,6 +60,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['search', 'reset'])
+
+// 树节点字段名：接口返回的分类用 id / name / children
+const treeProps = { label: 'name', value: 'id', children: 'children' }
 
 const formData = reactive({})
 

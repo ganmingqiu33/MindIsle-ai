@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
-  timeout: 5000,
+  timeout: 10000,
 })
 
 service.interceptors.request.use(
@@ -35,12 +35,12 @@ service.interceptors.response.use(
         return Promise.reject(data)
       }
     } else {
-      ElMessage.error(data.msg || '请求失败')
+      if (!config.silent) ElMessage.error(data.msg || '请求失败')
       return Promise.reject(data)
     }
   },
   (error) => {
-    ElMessage.error(error.message || '网络异常')
+    if (!error.config?.silent) ElMessage.error(error.message || '网络异常')
     return Promise.reject(error)
   }
 )

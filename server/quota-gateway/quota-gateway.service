@@ -1,0 +1,22 @@
+[Unit]
+Description=Xinyu AI Quota Gateway (between Nginx and Dify)
+After=network.target docker.service
+Requires=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/quota-gateway
+Environment=PORT=3001
+Environment=DIFY_UPSTREAM=http://127.0.0.1:8080
+Environment=DAILY_LIMIT=10
+Environment=DB_PATH=/var/lib/quota-gateway/quota.db
+# Dify App API Key：在下面填入，或使用 EnvironmentFile
+Environment=DIFY_API_KEY=app-在这里填你的密钥
+# EnvironmentFile=/etc/quota-gateway.env
+ExecStart=/usr/bin/node /opt/quota-gateway/server.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

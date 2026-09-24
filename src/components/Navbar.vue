@@ -34,9 +34,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import { useadminStore } from '@/stores/admin'
 
+const router = useRouter()
 const adminStore = useadminStore()
 const userName = ref('管理员')
 
@@ -51,9 +53,12 @@ const handleCommand = (command) => {
       type: 'warning',
     })
       .then(() => {
+        // 清除本地登录状态
         localStorage.removeItem('token')
+        localStorage.removeItem('userInfo')
         ElMessage.success('已退出登录')
-        // 待登录页/路由就绪后，可在此跳转：router.push('/login')
+        // replace：不能用浏览器后退回到后台页（会被路由守卫拦回登录页）
+        router.replace('/author/login')
       })
       .catch(() => {})
   }
